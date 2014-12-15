@@ -105,6 +105,7 @@ module.exports = function (grunt) {
     // Workon
     grunt.registerTask('serve', 'Start working on this project.', [
         // 'jshint',
+        'env:all',
         'express:dev',
         'watch'
     ]);
@@ -112,6 +113,7 @@ module.exports = function (grunt) {
 
     // Restart
     grunt.registerTask('restart', 'Restart the server.', [
+        'env:all',
         'express:dev',
         'watch'
     ]);

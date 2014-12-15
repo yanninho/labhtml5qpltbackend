@@ -2,6 +2,14 @@
 
 var Signalement = require('../../models/signalement');
 
+exports.show = function(req, res) {
+  Signalement.find(function(err, signalements) {
+      if(err) { return handleError(res, err); }
+      if(!signalements) { return res.send(404); }
+      return res.json(signalements);
+  });
+};
+
 exports.create = function(req, res) {
   var signalement = new Signalement(req.param('signalement'));	
 

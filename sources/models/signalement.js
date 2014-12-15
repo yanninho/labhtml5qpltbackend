@@ -8,7 +8,23 @@ var SignalementSchema = new Schema({
     date : { type: Date, default: Date.now },
     erreur: String,
     explication: String,
-    magasin : String
+    magasin : {
+	    location : [Number],
+	    adresse : String,
+	    actif : Boolean,
+	    marque : {
+	        nom : String,
+	        logo : String
+	    },
+	    commentaires : [{
+	        description : String,
+	        date : { type: Date },
+	        modalite : {
+	            nom : String,
+	            logo : String
+	        }
+	    }]
+	}
 });
 
 var collectionName = 'signalements';
