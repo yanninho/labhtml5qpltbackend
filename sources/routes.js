@@ -12,13 +12,6 @@ module.exports = function(app) {
   app.use('/modalites', require('./controllers/modalites'));
   app.use('/commentaires', require('./controllers/commentaires'));
   app.use('/signalements', require('./controllers/signalements'));
-  app.use('/auth', require('./controllers/users'));
- 
-  app.get('/*', function(req, res) {
-    if(req.user) {
-      res.cookie('user', JSON.stringify(req.user.user_info));
-    }
-  });
 
   // erreur url
   app.route('/*')

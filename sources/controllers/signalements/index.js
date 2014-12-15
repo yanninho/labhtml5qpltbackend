@@ -2,7 +2,6 @@
 
 var express = require('express');
 var controller = require('./signalement.controller');
-var auth = require('../../config/auth');
 
 var router = express.Router();
 
