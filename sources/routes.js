@@ -12,6 +12,7 @@ module.exports = function(app) {
   app.use('/modalites', require('./controllers/modalites'));
   app.use('/commentaires', require('./controllers/commentaires'));
   app.use('/signalements', require('./controllers/signalements'));
+  app.use('/auth', require('./controllers/users'));
 
   // erreur url
   app.route('/*')
