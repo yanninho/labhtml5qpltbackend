@@ -40,6 +40,17 @@ module.exports = function (grunt) {
                 'test/spec/**/*.js'
             ]
         },
+        clean: {
+            dist: {
+                files: [{
+                    dot: true,
+                    src: [
+                        'dist/*'
+                    ]
+                }
+                ]
+            }
+        },
         // configure pour les taches par environnement
         env: {
           test: {
@@ -77,18 +88,15 @@ module.exports = function (grunt) {
                     cwd: 'assets',
                     dest: 'dist/assets',
                     src: [
-                        '*.{ico,png,txt}',
-                        '.htaccess',
-                        'images/**/*.{webp,gif}',
-                        'styles/fonts/{,*/}*.*',
+                        '**/*'
                     ]
                 },
                 {
                     expand: true,
+                    cwd: 'sources',
                     dest: 'dist/server',
                     src: [
-                        'package.json',
-                        'sources/**/*'
+                        '**/*'
                     ]
                 }]  
             } 
@@ -119,9 +127,10 @@ module.exports = function (grunt) {
     ]);
     
 
-    // Build
-    // grunt.registerTask('build', 'Build production ready assets and views.', [
- 
-    // ]);
+    //Build
+    grunt.registerTask('build', 'Build production ready assets and views.', [
+        'clean:dist',
+        'copy:dist'
+    ]);
 
 };
