@@ -53,8 +53,12 @@ module.exports = function(app, config) {
 		app.use(passport.initialize());
 		app.use(passport.session());
 
+		  	console.log(path.join(path.normalize(__dirname + '../'), 'assets'));
+		  	console.log(path.join(config.root, 'assets'));
+
+
 		  if ('production' === env) {
-		    app.use('/static', express.static(path.join(path.normalize(__dirname + '../'), 'assets')));
+		    app.use('/static', express.static(path.join(config.root, 'assets')));
 		    // app.set('appPath', config.root + '/public');
 		    // app.use(morgan('dev'));
 		  }
