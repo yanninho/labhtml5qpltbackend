@@ -8,6 +8,6 @@ var auth = require('../../config/auth');
 var router = express.Router();
 
 router.get('/', auth.ensureAuthenticated, controller.show);
-router.post('/', auth.ensureAuthenticated, controller.create);
+router.post('/', controller.create);
 
 module.exports = router;

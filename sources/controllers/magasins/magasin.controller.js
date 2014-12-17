@@ -2,7 +2,12 @@
 
 var Magasin = require('../../models/magasin');
 var Commentaire = require('../../models/commentaire');
+var Signalement = require('../../models/signalement');
 var GeoJSON = require('geojson');
+
+var geojsonMagasins = function(magasins) {
+  return GeoJSON.parse(magasins, {Point: 'location', include: ['_id','adresse','actif','marque','commentaires']});
+}
 
 // retourne les magasins presents entre 4 points
 exports.show = function(req, res) {
@@ -17,7 +22,22 @@ exports.show = function(req, res) {
   Magasin.findInBox(coords, function(err, magasins) {
       if(err) { return handleError(res, err); }
       if(!magasins) { return res.send(404); }
-      var geojson = GeoJSON.parse(magasins, {Point: 'location', include: ['_id','adresse','actif','marque','commentaires']});
+      var geojson = geojsonMagasins(magasins);
+      return res.json(geojson);
+  });
+};
+
+exports.list = function(req, res) {
+  var filter = JSON.parse(req.query.filter);
+  var filters = {
+    "adresse" : {$regex : ".*"+ filter.adresse +".*"},
+    "marque.nom" : {$regex : ".*"+ filter.marque +".*"}
+  };
+
+  Magasin.find(filters, function(err, magasins) {
+      if(err) { return handleError(res, err); }
+      if(!magasins) { return res.send(404); }
+      var geojson = geojsonMagasins(magasins);
       return res.json(geojson);
   });
 };
@@ -69,6 +89,46 @@ exports.commentaires = function(req, res) {
   });
   return result;
 }
+
+exports.activer = function(req, res) {
+  var choix = req.params.choix;
+  var signalements = req.body.signalements;
+  var result = res.send(200);
+  var error = false;
+  var actif = false;
+  if (choix == 'oui') {
+    actif = true;
+  }
+
+  signalements.forEach(function(signalement) {
+      Magasin.findById(signalement.magasin._id, function(err, magasin){
+          if(!err && magasin) {
+            magasin.actif = actif;
+            magasin.save(function(err, magasin) {
+                if(err) { error = true; }                
+            });            
+          }
+          else {
+            error = true;            
+          }        
+      });
+      if (!error) {
+          Signalement.findById(signalement._id, function(err, bddSignalement) {
+            if(!err) {
+              bddSignalement.magasin.actif = actif;
+              bddSignalement.save(function(err, sign) {
+                  if(err) { error = true; }                
+              });                
+            }         
+          });          
+      }
+  });
+  if (error) {
+    result = res.send(404);
+  }
+  return result;  
+}
+
 
 function handleError(res, err) {
   return res.send(500, err);

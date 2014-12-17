@@ -9,6 +9,7 @@ var SignalementSchema = new Schema({
     erreur: String,
     explication: String,
     magasin : {
+    	_id : String,
 	    location : [Number],
 	    adresse : String,
 	    actif : Boolean,
