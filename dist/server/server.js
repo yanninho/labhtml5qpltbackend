@@ -54,7 +54,7 @@ module.exports = function(app, config) {
 		app.use(passport.session());
 
 		  if ('production' === env) {
-		    app.use('/static', express.static(path.join(config.root, 'dist/assets')));
+		    app.use('/static', express.static(path.join(path.normalize(__dirname + '../'), 'assets')));
 		    // app.set('appPath', config.root + '/public');
 		    // app.use(morgan('dev'));
 		  }
