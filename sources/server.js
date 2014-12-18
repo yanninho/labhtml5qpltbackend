@@ -53,23 +53,13 @@ module.exports = function(app, config) {
 		app.use(passport.initialize());
 		app.use(passport.session());
 
-		  	console.log(path.join(path.normalize(__dirname + '../'), 'assets'));
-		  	console.log(path.join(config.root, 'assets'));
-
-
 		  if ('production' === env) {
 		    app.use('/static', express.static(path.join(config.root, 'assets')));
-		    // app.set('appPath', config.root + '/public');
-		    // app.use(morgan('dev'));
 		  }
 
 		  if ('development' === env || 'test' === env) {	  	
 		    app.use(require('connect-livereload')());
 		    app.use('/static',express.static(path.join(config.root, 'assets')));
-		    // app.use(express.static(path.join(config.root, '.tmp')));
-		    // app.use(express.static(path.join(config.root, 'sources/frontend')));
-		    // app.use(express.static(path.join(config.root, 'sources/frontend/medias')));
-		    // app.set('appPath', 'sources/frontend');
 		    app.use(morgan('dev'));
 		    app.use(errorHandler()); // Error handler - has to be last
 

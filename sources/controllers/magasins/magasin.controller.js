@@ -28,18 +28,40 @@ exports.show = function(req, res) {
 };
 
 exports.list = function(req, res) {
-  var filter = JSON.parse(req.query.filter);
-  var filters = {
-    "adresse" : {$regex : ".*"+ filter.adresse +".*"},
-    "marque.nom" : {$regex : ".*"+ filter.marque +".*"}
-  };
-
-  Magasin.find(filters, function(err, magasins) {
+  var query = Magasin.find();
+  var callback = function(err, magasins) {
       if(err) { return handleError(res, err); }
       if(!magasins) { return res.send(404); }
       var geojson = geojsonMagasins(magasins);
       return res.json(geojson);
-  });
+  };
+
+  var filter = JSON.parse(req.query.filter);
+  if (filter != undefined) {
+    var adresse = filter.adresse;
+    var marque = filter.marque;
+    if (adresse != undefined) {
+      query.regex("adresse",".*"+ adresse +".*");
+    }
+    if (marque != undefined) {
+      query.regex("marque.nom",".*"+ marque +".*");
+    }
+  }
+
+  var sorts = JSON.parse(req.query.sorts);
+  if (sorts != undefined) {
+    query.sort(sorts);
+    // sorts.values.forEach(function(sort) {
+    //   query.sort(sort[1]+sort[0]);
+    // });
+  }
+
+  var limit = JSON.parse(req.query.limit);
+  if (limit != undefined) {    
+    query.limit(limit);
+  }
+
+  query.exec(callback);  
 };
 
 exports.findOne = function(req, res) {
