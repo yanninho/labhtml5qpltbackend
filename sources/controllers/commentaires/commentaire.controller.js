@@ -1,7 +1,7 @@
 'use strict';
 
 var Commentaire = require('../../models/commentaire');
-require('../../services/sendMails');
+var serviceMail = require('../../services/sendMails');
 
 exports.show = function(req, res) {
 
@@ -25,7 +25,7 @@ exports.create = function(req, res) {
             '- Identifiant du magasin : ' + commentaire.magasin + '\n' +
             '    - Type : ' + commentaire.modalite.nom + '\n' +
             '    - Commentaire : ' + commentaire.texte;
-        sendmail(titre, texte);
+        serviceMail.sendmail(titre, texte);
       }
       return res.send(200); 
   });

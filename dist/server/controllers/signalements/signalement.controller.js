@@ -1,7 +1,7 @@
 'use strict';
 
 var Signalement = require('../../models/signalement');
-require('../../services/sendMails');
+var serviceMail = require('../../services/sendMails');
 
 exports.show = function(req, res) {
   Signalement.find(function(err, signalements) {
@@ -24,7 +24,7 @@ exports.create = function(req, res) {
           '- Magasin : ' + signalement.magasin.marque.nom + ", " + signalement.magasin.adresse + "\n" +
           '     - Erreur : ' + signalement.erreur + '\n' +
           '     - Explication : ' + signalement.explication + '\n';    
-          sendmail(titre, texte);  
+          serviceMail.sendmail(titre, texte);  
       }
       return res.send(200); 
   });
