@@ -25,7 +25,7 @@ exports.create = function(req, res) {
             '- Identifiant du magasin : ' + commentaire.magasin + '\n' +
             '    - Type : ' + commentaire.modalite.nom + '\n' +
             '    - Commentaire : ' + commentaire.texte;
-        sendMail(titre, texte);
+        sendmail(titre, texte);
       }
       return res.send(200); 
   });

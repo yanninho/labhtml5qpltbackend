@@ -24,7 +24,7 @@ exports.create = function(req, res) {
           '- Magasin : ' + signalement.magasin.marque.nom + ", " + signalement.magasin.adresse + "\n" +
           '     - Erreur : ' + signalement.erreur + '\n' +
           '     - Explication : ' + signalement.explication + '\n';    
-          sendMail(titre, texte);  
+          sendmail(titre, texte);  
       }
       return res.send(200); 
   });
