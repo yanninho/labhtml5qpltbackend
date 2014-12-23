@@ -23,7 +23,7 @@ exports.create = function(req, res) {
         var titre = 'Nouveau commentaire';
         var texte = 'Un nouveau commentaire vient d\'être proposé : \n' + 
             '- Identifiant du magasin : ' + commentaire.magasin + '\n' +
-            '    - Type : ' + modalite.nom + '\n' +
+            '    - Type : ' + commentaire.modalite.nom + '\n' +
             '    - Commentaire : ' + commentaire.texte;
         sendMail(titre, texte);
       }
