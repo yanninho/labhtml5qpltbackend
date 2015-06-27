@@ -105,8 +105,28 @@ module.exports = function (grunt) {
           options: {
             reporter: 'spec'
           },
-          src: ['sources/**/*.spec.js']
-        } 
+          src: ['test/**/*.spec.js']
+        },
+        instrument: {
+          files: ['sources/**/*.js'],
+          options: {
+            lazy: true,            
+            basePath: 'test/coverage/instrument/'
+          }
+        },   
+        storeCoverage: {
+          options: {
+            dir: 'test/coverage/reports'
+          }
+        },
+        makeReport: {
+          src: 'test/coverage/reports/**/*.json',
+          options: {
+            type: 'lcov',
+            dir: 'test/coverage/reports',
+            print: 'detail'
+          }
+        }              
     });
 
     // Register Tasks

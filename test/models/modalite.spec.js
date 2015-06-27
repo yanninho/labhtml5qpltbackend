@@ -1,9 +1,10 @@
 'use strict';
 
+var requireHelper = require('./require_helper');
 var should = require('chai').should();
-var config = require('../config/environment');
-require('../db')(config);
-var Modalite = require('./modalite');
+var config = requireHelper('config/environment');
+requireHelper('db')(config);
+var Modalite = requireHelper('models/modalite');
 
 describe('Modalite Model', function() {
 

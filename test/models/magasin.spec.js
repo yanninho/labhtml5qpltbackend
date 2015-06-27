@@ -1,9 +1,9 @@
 'use strict';
-
+var requireHelper = require('./require_helper');
 var should = require('chai').should();
-var config = require('../config/environment');
-require('../db')(config);
-var Magasin = require('./magasin');
+var config = requireHelper('config/environment');
+requireHelper('db')(config);
+var Magasin = requireHelper('models/magasin');
 
 describe('Magasin Model', function() {
 	 
