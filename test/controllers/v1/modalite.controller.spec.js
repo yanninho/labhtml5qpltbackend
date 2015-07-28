@@ -1,6 +1,7 @@
 'use strict';
 
-var app = require('../../app');
+var requireHelper = require('../../require_helper');
+var app = requireHelper('app');
 var request = require('supertest');
 
 describe('GET /modalites', function() {

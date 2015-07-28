@@ -1,7 +1,7 @@
 'use strict';
 
-var Signalement = require('../../models/signalement');
-var serviceMail = require('../../services/sendMails');
+var Signalement = require('../../../models/signalement');
+var serviceMail = require('../../../services/sendMails');
 
 exports.show = function(req, res) {
   Signalement.find(function(err, signalements) {

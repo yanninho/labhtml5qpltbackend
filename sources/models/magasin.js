@@ -6,11 +6,24 @@ var Modalite = require('./modalite');
 
 var MagasinSchema = new Schema({
     location : [Number],
-    adresse : String,
-    actif : Boolean,
+    adresse : { 
+        type : String,
+        required: true
+    },
+    actif : {
+        type : Boolean,
+        required: true,
+        default : false
+    },
     marque : {
-        nom : String,
-        logo : String
+        nom : {
+            type : String,
+            required: true
+        },
+        logo : {
+            type : String,
+            required: true
+        }
     },
     commentaires : [{
         description : String,
@@ -23,6 +36,7 @@ var MagasinSchema = new Schema({
 });
 
 function controlCoordonnees(coords) {
+
     var stringUtils = require('string');
     var isOk = true;
     if (typeof coords == 'undefined') {
@@ -120,18 +134,19 @@ function controlCommentaires(commentaires) {
  * Methods
  */
 MagasinSchema.statics.findInBox = function (coords, callback) {
-
     if (!controlCoordonnees(coords)) {
         throw new Error('Les coordonnees ne sont pas valides');
     }
     else {
-        return this.model('Magasin').find(
+        this.model('Magasin').find(
             {"location": 
                 {"$within": 
                     {"$box": [[coords.longitudeSudOuest, coords.latitudeSudOuest], [coords.longitudeNordEst, coords.latitudeNordEst]]}
                 }
             }
-        ,callback);        
+        ,function(err, res) {
+            return callback(err, res);
+        });        
     }
 } 
 

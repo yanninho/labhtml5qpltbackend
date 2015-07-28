@@ -1,8 +1,8 @@
 'use strict';
 
-var Magasin = require('../../models/magasin');
-var Commentaire = require('../../models/commentaire');
-var Signalement = require('../../models/signalement');
+var Magasin = require('../../../models/magasin');
+var Commentaire = require('../../../models/commentaire');
+var Signalement = require('../../../models/signalement');
 var GeoJSON = require('geojson');
 
 var geojsonMagasins = function(magasins) {

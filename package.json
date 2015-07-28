@@ -21,8 +21,10 @@
     "passport-google-oauth": "~0.1.5",
     "passport-local": "~0.1.6",
     "passport-twitter": "~1.0.2",
+    "rsvp": "^3.0.18",
     "sendgrid": "^1.4.0",
-    "string": "^2.2.0"
+    "string": "^2.2.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "chai": "^1.10.0",

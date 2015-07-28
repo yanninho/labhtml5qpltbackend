@@ -1,7 +1,7 @@
 'use strict';
 
-var Commentaire = require('../../models/commentaire');
-var serviceMail = require('../../services/sendMails');
+var Commentaire = require('../../../models/commentaire');
+var serviceMail = require('../../../services/sendMails');
 
 exports.show = function(req, res) {
 

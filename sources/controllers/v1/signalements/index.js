@@ -1,13 +1,13 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./commentaire.controller');
+var controller = require('./signalement.controller');
 
-var auth = require('../../config/auth');
+var auth = require('../../../config/auth');
 
 var router = express.Router();
 
 router.get('/', auth.ensureAuthenticated, controller.show);
-router.post('/', controller.create);
+router.post('/', auth.ensureAuthenticated, controller.create);
 
 module.exports = router;

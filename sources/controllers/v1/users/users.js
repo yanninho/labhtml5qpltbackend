@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  User = require('../../models/user'),
+  User = require('../../../models/user'),
   passport = require('passport'),
   ObjectId = mongoose.Types.ObjectId;
 

@@ -39,6 +39,7 @@ module.exports = function(app, config) {
 			}
 		});
 
+		app.use(express.static(__dirname + '/public'));
 
 		// express/mongo session storage
 		app.use(session({

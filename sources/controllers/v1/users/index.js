@@ -5,7 +5,7 @@ var usercontroller = require('./users');
 var sessioncontroller = require('./session');
 // var googlecontroller = require('./google');
 
-var auth = require('../../config/auth');
+var auth = require('../../../config/auth');
 
 var router = express.Router();
 

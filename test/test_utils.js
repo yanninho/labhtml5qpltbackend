@@ -4,6 +4,9 @@ var requireHelper = require('./require_helper');
 var  config = requireHelper('config/environment');
 var mongoose = require('mongoose');
 
+var magasinTest = require('./seed/magasins.seed');
+var modaliteTest = require('./seed/modalites.seed');
+
 
 // ensure the NODE_ENV is set to 'test'
 // this is helpful when you would like to change behavior when testing
@@ -13,14 +16,14 @@ beforeEach(function (done) {
 
  function clearDB() {
    for (var i in mongoose.connection.collections) {
-     mongoose.connection.collections[i].remove();
+     mongoose.connection.collections[i].remove(function() {});
    }
-   populateDatabase();
-   return done();
+   
  }
 
  function populateDatabase() {
-
+  magasinTest.seed();
+  modaliteTest.seed();
  }
 
  function reconnect() {
@@ -28,7 +31,9 @@ beforeEach(function (done) {
      if (err) {
        throw err;
      }
-     return clearDB();
+     clearDB();
+     populateDatabase();
+     return done();
    });
  }
 
@@ -40,6 +45,8 @@ beforeEach(function (done) {
      break;
    case 1:
      clearDB();
+     populateDatabase();
+     done();
      break;
    default:
      setImmediate(checkState);
@@ -50,6 +57,6 @@ beforeEach(function (done) {
 });
 
 afterEach(function (done) {
-// mongoose.disconnect();
+ // mongoose.disconnect();
  return done();
 });

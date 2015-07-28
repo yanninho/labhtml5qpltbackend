@@ -3,7 +3,7 @@
 var express = require('express');
 var controller = require('./magasin.controller');
 
-var auth = require('../../config/auth');
+var auth = require('../../../config/auth');
 
 var router = express.Router();
 

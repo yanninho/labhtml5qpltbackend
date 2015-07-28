@@ -105,7 +105,7 @@ module.exports = function (grunt) {
           options: {
             reporter: 'spec'
           },
-          src: ['test/**/*.spec.js']
+          src: ['test/**/v2/**/*.spec.js']
         },
         instrument: {
           files: ['sources/**/*.js'],
@@ -145,6 +145,22 @@ module.exports = function (grunt) {
         'express:dev',
         'watch'
     ]);
+ 
+
+    // Test
+    grunt.registerTask('test', 'Tests', [
+        'env:test',
+        'mochaTest'
+    ]);
+  
+    grunt.registerTask('coverage', [
+        'clean:coverage',
+        'env:coverage', 
+        'instrument', 
+        'mochaTest',
+        'storeCoverage', 
+        'makeReport'
+    ]);    
     
 
     //Build

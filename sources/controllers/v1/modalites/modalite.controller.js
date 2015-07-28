@@ -1,6 +1,6 @@
 'use strict';
 
-var Modalite = require('../../models/modalite');
+var Modalite = require('../../../models/modalite');
 
 // retourne les magasins presents entre 4 points
 exports.show = function(req, res) {
