@@ -198,7 +198,7 @@ describe('GET /magasins', function() {
     .expect(200)
     .end(function(err, res) {
       should.not.exist(err);
-      var magasin = res.body;
+      var magasin = res.body[0];
       magasin._id.should.equal('54616901806f1300f4000002');
       magasin.location[0].should.equal(5.442);  
       magasin.location[1].should.equal(43.514);
@@ -206,6 +206,29 @@ describe('GET /magasins', function() {
       magasin.actif.should.equal(true);
       magasin.marque.nom.should.equal('Carrefour');
       magasin.marque.logo.should.equal('carrefour.png');
+      done();
+    })
+  }); 
+
+  it('retourne un magasin correspondant à son id en paramètre contenant seulement adresse et nom de la marque', function(done) {
+    request(app)
+    .get('/v2/magasins/54616901806f1300f4000002?fields=adresse,marque(nom)')
+    .expect(200)
+    .end(function(err, res) {
+      should.not.exist(err);
+      var magasin = res.body[0];
+      var keys = _.keys(magasin);   
+      _.contains(keys, 'adresse').should.equal(true);   
+      _.contains(keys, 'marque').should.equal(true);   
+      _.contains(keys, 'actif').should.equal(false);  
+
+      var keysMarque = _.keys(magasin['marque']);
+      _.contains(keysMarque, 'nom').should.equal(true); 
+      _.contains(keysMarque, 'logo').should.equal(false);
+      
+      magasin.adresse.should.equal('Centre commercial la Pioline. 1175 Rue Guillaume Du Vair 13546 AIX EN PROVENCE CEDEX 04 ');
+      magasin.marque.nom.should.equal('Carrefour');
+
       done();
     })
   }); 

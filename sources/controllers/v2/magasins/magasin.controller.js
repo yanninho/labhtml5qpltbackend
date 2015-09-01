@@ -2,81 +2,73 @@
 
 var Magasin = require('../../../models/magasin'),
     mongoose = require('mongoose'),
-    requestName = 'magasin',
-    maxResultPossible = 200,
     _ = require("underscore"),
-    RSVP = require('rsvp'),
-    GeoJSON = require('geojson'),
-    requestProcess = require('../../../services/requestProcess.service');
+    GeoJSON = require('geojson');
 
-
-function count(infos) {
-	return new RSVP.Promise(function(resolve, reject) {
-		return requestProcess.addFilters(Magasin.count(), infos.filters).exec().then(function(res) {
-			infos.count = res;
-			if (infos.range.limit === maxResultPossible && res > 0) {
-				infos.range.limit = res;
-			}
-			resolve(infos);
-		});
-	});
+exports.init = function(resourceName, maxResult) {
+	return function(req, res, next) {
+		if (!resourceName) return res.status(500).send({reason: 'Technical error : resourceName is not defined'});
+		if (!maxResult) return res.status(500).send({reason: 'Technical error : maxResult is not defined'});
+		req.resourceName = resourceName;
+		req.maxResult = maxResult;
+		next();
+	}
 }
 
-function find(infos) {
-	var count = infos.count;
-	var range = infos.range;
-	return new RSVP.Promise(function(resolve, reject) {
-			var req = Magasin.find({});
-			req = requestProcess.addRange(req, infos.range);
-			req = requestProcess.addFilters(req, infos.filters);					
-			req = requestProcess.addSort(req, infos.sort);					
-			return req.exec().then(function(res) {
-				infos.result = res;
-				resolve(infos);
-			});
-	});
+exports.endFind = function(req, res, next) {
+	var status = 200;		 
+    if (req.result.length < req.count) {
+    	status = 206;
+    }
+    return res.status(status).json(req.result);
 }
 
-exports.find = function(req, res) {
+exports.endFindById = function(req, res, next) {
+    return res.json(req.result);
+}
 
-	function setAcceptRange() {
-		res.setHeader('Accept-Range', requestName + ' ' + maxResultPossible);
-	}
-	
-	function reject(error) {
-		setAcceptRange();
-		return res.status(error.status).send({reason : error.reason});
-	}
+exports.count = function(req,res,next) {
+	var mongoReq = Magasin.count();
+	_.mapObject(req.happyRest.filters, function(val, key) {
+		mongoReq = Magasin.count().where(key).in(val);
+	});	
 
-	function end(infos) {
-		res.setHeader('Content-Range', infos.range.offset + '-' + infos.range.limit + '/'+ infos.count );
-		setAcceptRange();
-		var status = 200;
-		if (infos.result.length < infos.count) {
-			status = 206;
+	mongoReq.exec().then(function(res) {
+		req.count = res;
+		if (req.happyRest.range && req.happyRest.range.limit === req.maxResult && res > 0) {
+			req.happyRest.range.limit = res;
 		}
-		return res.status(status).json(infos.result);		
-	}
+		next();	
+	});	
+}
 
-	req.maxResultPossible = maxResultPossible;
-	requestProcess.prepare(req, reject)
-	.then(requestProcess.range, reject)
-	.then(requestProcess.fields, reject)
-	.then(requestProcess.filters, reject)
-	.then(requestProcess.sort, reject)
-	.then(count, reject)
-	.then(find, reject)
-	.then(requestProcess.format, reject)
-	.then(end);
-  
+exports.find = function(req, res, next) {
+	var range = req.happyRest.range;
+	var mongoReq = Magasin.find();
+	//add filters
+	_.mapObject(req.happyRest.filters, function(val, key) {
+		mongoReq = Magasin.find().where(key).in(val);
+	});	
+	//add sort
+	_.each(req.happyRest.sort, function(sort) {
+		mongoReq = mongoReq.sort(sort);
+	});			
+	//add range
+	mongoReq.skip(range.offset).limit(range.limit - range.offset);
+
+	mongoReq.exec().then(function(res) {
+		req.result = res;
+		next();
+	});	
 };
 
-exports.findById = function(req, res) {
+exports.findById = function(req, res, next) {
 	var id = req.params.id;
 	var ObjectId = mongoose.Types.ObjectId;
 	Magasin.findOne({_id : new ObjectId(id)}, function(err, result) {
 		if (err) return res.send(500, err);
-		return res.json(result);
+		req.result = [result];
+		next();
 	});
 }
 
