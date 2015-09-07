@@ -11,7 +11,7 @@ var express = require('express')
 var config = require('./config/environment');
 var app  = express();
 
-require('./db')(config);
+require('./db')(app, config);
 require('./server')(app, config);
 require('./routes')(app);
 

@@ -47,9 +47,9 @@ describe('GET /magasins', function() {
 
   it('retourne une plage de magasins', function(done) {
     request(app)
-    .get('/v2/magasins?range=0-10')
+    .get('/v2/magasins?range=0-9')
     .expect(206)
-    .expect('Content-Range', '0-10/14')
+    .expect('Content-Range', '0-9/14')
     .expect('Accept-Range', 'magasin 200')    
     .end(function(err, res) {
       should.not.exist(err);
@@ -113,7 +113,7 @@ describe('GET /magasins', function() {
 
   it('retourne un magasin correspondant à une recherche du champ marque > nom', function(done) {
     request(app)
-    .get('/v2/magasins?marque.nom=Carrefour&range=0-10&fields=adresse')
+    .get('/v2/magasins?marque.nom=Carrefour&range=0-9&fields=adresse')
     .expect(206)  
     .end(function(err, res) {
       should.not.exist(err);
@@ -171,7 +171,7 @@ describe('GET /magasins', function() {
       should.not.exist(err);
       var magasins = res.body;
       magasins.should.be.instanceof(Array);
-      magasins.should.have.length(4);     
+      magasins.should.have.length(5);     
       done();
     })
   }); 
