@@ -1,17 +1,16 @@
 /**
  * Database configuration
  */
-'use strict';
+ 'use strict';
 
-var mongoose = require('mongoose');
+ var mongo = require('mongodb');
 
-module.exports = function(config) {
-
-	mongoose.connect(config.mongo.uri, config.mongo.options);
-	var connection = mongoose.connection;
-	connection.on('error', console.error.bind(console, 'connection MongoDB error:'));
-	connection.once('open', function callback () {
-	  console.log('Connection mongoDB OK');
-	});	
-
-};
+ module.exports = function(config, callback) {
+ 	mongo.connect(config.mongo.uri, function(err, db) {
+		if(err) {
+			throw err;
+		}
+		config.db = db;
+		console.log('Connection mongo OK'); 	
+ 	});		
+ };
