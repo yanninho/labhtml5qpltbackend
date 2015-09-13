@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 
 var magasinTest = require('./seed/magasins.seed');
 var modaliteTest = require('./seed/modalites.seed');
+var authTest = require('./seed/authorizations.seed');
+var userTest = require('./seed/users.seed');
 
 
 // ensure the NODE_ENV is set to 'test'
@@ -24,6 +26,8 @@ beforeEach(function (done) {
  function populateDatabase() {
   magasinTest.seed();
   modaliteTest.seed();
+  authTest.seed();
+  userTest.seed();
  }
 
  function reconnect() {

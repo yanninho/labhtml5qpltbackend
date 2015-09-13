@@ -105,7 +105,7 @@ module.exports = function (grunt) {
           options: {
             reporter: 'spec'
           },
-          src: ['test/**/v2/**/*.spec.js']
+          src: ['test/**/*.spec.js']
         },
         instrument: {
           files: ['sources/**/*.js'],

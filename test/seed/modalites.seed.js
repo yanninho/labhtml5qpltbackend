@@ -1,7 +1,7 @@
 'use strict';
 
 var requireHelper = require('../require_helper')
-  , feedModel = requireHelper('models/modalite');
+  , feedModel = require('./modalite.model');
 
 exports.seed = function() {
     var ObjectId = require('mongoose').Types.ObjectId;

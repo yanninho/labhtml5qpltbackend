@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose'),
 Schema = mongoose.Schema;
-var Modalite = require('./modalite');
+var Modalite = require('./modalite.model');
 
 var MagasinSchema = new Schema({
     location : [Number],

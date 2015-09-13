@@ -1,7 +1,7 @@
 'use strict';
 
 var path = require('path');
-var _ = require('lodash');
+var _ = require('underscore');
 
 function requiredProcessEnv(name) {
   if(!process.env[name]) {
@@ -39,6 +39,6 @@ var all = {
 
 // Export the config object based on the NODE_ENV
 // ==============================================
-module.exports = _.merge(
+module.exports = _.extend(
   all,
   require('./' + process.env.NODE_ENV + '.js') || {});
