@@ -19,15 +19,18 @@ module.exports = {
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME
   },
-  google : {
-    clientID: process.env.GOOGLE_ID,
-    clientSecret: process.env.GOOGLE_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK
-  },
-  facebook : {
-    clientID: process.env.FACEBOOK_ID,
-    clientSecret: process.env.FACEBOOK_SECRET,
-    callbackURL: process.env.FACEBOOK_CALLBACK,
-    enableProof: false      
-  }  
+  auth : {
+    google : {
+      clientID: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      callbackURL: process.env.GOOGLE_CALLBACK
+    },
+    facebook : {
+      clientID: process.env.FACEBOOK_ID,
+      clientSecret: process.env.FACEBOOK_SECRET,
+      callbackURL: process.env.FACEBOOK_CALLBACK,
+      enableProof: false      
+    }     
+  }
+ 
 };
