@@ -8,6 +8,7 @@ exports.execute = function(req, res) {
 	var newUser = req.body;
 	var newToken = user.generateToken();
 	newUser.token = newToken;
+	newUser.provder = 'local';
 	user.create(newUser, function(err, userCreated) {
 		if (err) {
 			res.status(500).json(err);

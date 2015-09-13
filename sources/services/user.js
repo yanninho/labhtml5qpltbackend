@@ -30,6 +30,19 @@ function User(db) {
 		});			
 	};
 
+	this.findByCriteria = function(criteria, callback) {
+		collection.findOne(criteria, function(err, user) {
+				if (err) {
+					return callback(err, null);
+				}
+				if (!user) {
+					return callback(null, false);
+				}
+				return callback(null, user);		
+
+			});		
+	};
+
 	this.findByTokenProvider = function(token, provider, callback) {
 		collection.findOne({'token': token, 'provider' : provider }, function(err, user) {
 				if (err) {
@@ -78,7 +91,7 @@ function User(db) {
 	};
 
 	this.isValid = function(email,password, callback) {
-		collection.findOne({'email' : email}, function(err, user) {
+		collection.findOne({'email' : email, 'provider' : 'local'}, function(err, user) {
 			if (err) { 
 				return callback(err, null); 
 			}

@@ -9,17 +9,22 @@ module.exports = function(config) {
 	  function(accessToken, refreshToken, profile, done) {
 	  	function findOrCreate() {
 		  	var user = new User(config.db);
-		    user.findByTokenProvider(accessToken, 'google', function(err, resultFind) {
+    		var email = function() {
+    			if (profile.emails.length > 0) {
+    				return profile.emails[0].value;
+    			}
+    			return undefined;
+    		};
+
+    		if (email() === undefined) {
+    			return done('Error : Email empty', null);
+    		}
+
+		    user.findByCriteria({'email' : email(), 'provider' : 'google'}, function(err, resultFind) {
 		    	if (err) {
 		    		done(err, null);
 		    	}
 		    	if (!resultFind) {
-		    		var email = function() {
-		    			if (profile.emails.length > 0) {
-		    				return profile.emails[0].value;
-		    			}
-		    			return null;
-		    		};
 		    		var photo = function() {
 		    			if (profile.photos.length > 0) {
 		    				return profile.photos[0].value;

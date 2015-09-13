@@ -9,7 +9,7 @@ module.exports = function(config) {
 	  function(accessToken, refreshToken, profile, done) {
 	  	function findOrCreate() {
 	  		var user = new User(config.db);
-		    user.findByTokenProvider(accessToken, 'facebook', function(err, resultFind) {
+		    user.findByCriteria({'displayName' : profile.displayName, 'provider' : 'facebook'}, function(err, resultFind) {
 		    	if (err) {
 		    		done(err, null);
 		    	}
