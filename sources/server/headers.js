@@ -1,9 +1,12 @@
  'use strict';
 
  var cors = require('cors');
+ var morgan = require('morgan');
 
  module.exports = function(app) {
- 
+  
+  app.use(morgan('combined'));
+
   app.use(cors());
 
   app.use(function(req, res, next){
