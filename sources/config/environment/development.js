@@ -11,7 +11,8 @@ module.exports = {
   	google : {
 	    clientID: '34833949027-4ti272fqs4l0ao6ra8c7crumr8el9uch.apps.googleusercontent.com',
 	    clientSecret: 'XETmKtcLKIeUGClzlofx57k2',
-	    callbackURL: 'http://127.0.0.1:9000/v2/auth/google/callback'
+	    callbackURL: 'http://127.0.0.1:9000/v2/auth/google/callback',
+      clientURL: 'http://localhost:9001'
   	},
   	facebook : {
 	    clientID: '1038931759463689',

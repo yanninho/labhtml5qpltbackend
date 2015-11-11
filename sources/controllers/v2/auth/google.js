@@ -17,7 +17,8 @@ var express = require('express'),
         if(!user) {
             return res.redirect(req.headers.referer);
         }
-      res.redirect(302, req.headers.referer+ '?token=' + user.token);            
+      console.log(req.headers);  
+      res.redirect(302, req.config.auth.google.clientURL + '?token=' + user.token);            
     })(req,res); 
   }); 
 
